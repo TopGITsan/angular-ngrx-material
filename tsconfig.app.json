@@ -3,7 +3,11 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": []
+    "types": [],
+    "baseUrl": "/", // setting a value for baseUrl is required if paths set
+    "paths": {
+      "@app/*": ["src/app/*"] // to enable non-relative module resolution for ES6 imports
+    }
   },
   "files": [
     "src/main.ts"

@@ -1,0 +1,14 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span [routerLink]="['/list']" routerLinkActive="router-link-active" class="header">Bookmaker</span>
+    <span class="spacer"></span>
+    <mat-icon>search</mat-icon>
+    <!-- <mat-form-field appearance="outline" class="full-width"> -->
+    <input matInput placeholder="Filter bookmarks" type="text">
+    <!-- </mat-form-field> -->
+    <span class="spacer"></span>
+    <mat-icon class="icon" [routerLink]="['/create']" routerLinkActive="router-link-active"
+      matTooltip="Create a new bookmark">add</mat-icon>
+  </mat-toolbar-row>
+</mat-toolbar>
+<router-outlet />
