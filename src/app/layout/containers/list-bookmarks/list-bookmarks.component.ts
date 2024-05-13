@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+import { DatePipe, JsonPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,11 +7,12 @@ import { FuzzyPipe } from '../../../shared/pipes/fuzzy.pipe';
 import { Bookmark, BookmarkService } from '../../../shared/services/bookmark/bookmark.service';
 import { isToday, isYesterday } from '../../../shared/util';
 import { RouterModule } from '@angular/router';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-list-bookmarks',
   standalone: true,
-  imports: [FuzzyPipe, MatListModule, MatIconModule, FormsModule, NgFor, NgIf, RouterModule],
+  imports: [FuzzyPipe, MatListModule, MatIconModule, MatDividerModule, FormsModule, RouterModule, DatePipe, JsonPipe],
   templateUrl: './list-bookmarks.component.html',
   styleUrl: './list-bookmarks.component.scss'
 })

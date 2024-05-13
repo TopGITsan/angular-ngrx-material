@@ -1,55 +1,72 @@
-<mat-list *ngIf="bookmarkService.filterText;else groupedBookmarks">
+@if (bookmarkService.filterText) {
+<mat-list>
   <h3 mat-subheader>Results for <em>{{bookmarkService.filterText}}</em></h3>
-  <mat-list-item *ngFor="let bookmark of allBookmarks | fuzzy: bookmarkService.filterText">
+  @for (bookmark of todaysBookmarks | fuzzy: bookmarkService.filterText; track bookmark) {
+
+  <mat-list-item>
     <mat-icon mat-list-icon>bookmark</mat-icon>
-    <h4 mat-line>{{bookmark.name}}</h4>
-    <a [href]="bookmark.url" target="_blank" rel="noopener noreferrer">
+    <h4>{{bookmark.name}}</h4>
+    <a [href]="bookmark.url"  target="_blank" rel="noopener noreferrer">
       <mat-icon mat-list-icon>{{bookmark.url}}</mat-icon>
     </a>
     <a [routerLink]="['/edit',bookmark.id]">
-      <mat-icon mat-icon-list>edit</mat-icon>
+      <mat-icon matListItemIcon>edit</mat-icon>
     </a>
   </mat-list-item>
+
+  }
 </mat-list>
 
-<ng-template #groupedBookmarks>
-  <mat-list>
-    <!-- today -->
-    <h3 mat-subheader>Today</h3>
-    <mat-list-item *ngFor="let bookmark of todaysBookmarks">
-      <mat-icon mat-list-icon>bookmark</mat-icon>
-      <h4 mat-line>{{bookmark.name}}</h4>
-      <a [href]="bookmark.url" target="_blank" rel="noopener noreferrer">
-        <mat-icon mat-list-icon>{{bookmark.url}}</mat-icon>
-      </a>
-      <a [routerLink]="['/edit',bookmark.id]">
-        <mat-icon mat-icon-list>edit</mat-icon>
-      </a>
-    </mat-list-item>
-    <!-- yesterday -->
-    <h3 mat-subheader>Yesterday</h3>
-    <mat-list-item *ngFor="let bookmark of yesterdaysBookmarks">
-      <mat-icon mat-list-icon>bookmark</mat-icon>
-      <h4 mat-line>{{bookmark.name}}</h4>
-      <a [href]="bookmark.url" target="_blank" rel="noopener noreferrer">
-        <mat-icon mat-list-icon>{{bookmark.url}}</mat-icon>
-      </a>
-      <a [routerLink]="['/edit',bookmark.id]">
-        <mat-icon mat-icon-list>edit</mat-icon>
-      </a>
-    </mat-list-item>
+} @else {
 
-    <!-- Older -->
-    <h3 mat-subheader>Older</h3>
-    <mat-list-item *ngFor="let bookmark of olderBookmarks">
-      <mat-icon mat-list-icon>bookmark</mat-icon>
-      <h4 mat-line>{{bookmark.name}}</h4>
-      <a [href]="bookmark.url" target="_blank" rel="noopener noreferrer">
-        <mat-icon mat-list-icon>{{bookmark.url}}</mat-icon>
-      </a>
-      <a [routerLink]="['/edit',bookmark.id]">
-        <mat-icon mat-icon-list>edit</mat-icon>
-      </a>
-    </mat-list-item>
-  </mat-list>
-</ng-template>
+<mat-list color="primary">
+  <!-- today -->
+  <div mat-subheader>Today</div>
+  @for (bookmark of todaysBookmarks; track bookmark) {
+  <mat-list-item>
+    <mat-icon matListItemIcon>bookmark</mat-icon>
+    <div matListItemTitle>{{bookmark.name}}</div>
+    <div matListItemLine>{{bookmark.created | date}}</div>
+    <a [href]="bookmark.url">
+      {{bookmark.url}}
+    </a>
+    <a [routerLink]="['/edit',bookmark.id]">
+      <mat-icon>edit</mat-icon>
+    </a>
+  </mat-list-item>
+  }
+  <mat-divider></mat-divider>
+  <!-- yesterday -->
+  <div mat-subheader>Yesterday</div>
+  @for (bookmark of yesterdaysBookmarks; track bookmark) {
+  <mat-list-item>
+    <mat-icon matListItemIcon>bookmark</mat-icon>
+    <div matListItemTitle>{{bookmark.name}}</div>
+    <div matListItemLine>{{bookmark.created | date}}</div>
+    <a [href]="bookmark.url" >
+      {{bookmark.url}}
+    </a>
+    <a [routerLink]="['/edit',bookmark.id]" >
+      <mat-icon>edit</mat-icon>
+    </a>
+  </mat-list-item>
+  }
+  <mat-divider></mat-divider>
+  <!-- older -->
+  <div mat-subheader>Older</div>
+  @for (bookmark of olderBookmarks; track bookmark) {
+  <mat-list-item>
+    <mat-icon matListItemIcon>bookmark</mat-icon>
+    <div matListItemTitle>{{bookmark.name}}</div>
+    <div matListItemLine>{{bookmark.created | date}}</div>
+    <a [href]="bookmark.url">
+      {{bookmark.url}}
+    </a>
+    <a [routerLink]="['/edit',bookmark.id]" >
+      <mat-icon>edit</mat-icon>
+    </a>
+  </mat-list-item>
+  }
+</mat-list>
+}
+

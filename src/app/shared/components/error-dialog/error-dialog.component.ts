@@ -22,6 +22,8 @@ export class ErrorDialogComponent {
   confirm(): void {
     if (this.error.redirectTo) {
       this.router.navigate([this.error.redirectTo])
+    } else {
+      this.router.navigate(['/'])
     }
     this.dialogRef.close()
   }
