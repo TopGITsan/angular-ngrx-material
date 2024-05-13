@@ -1,0 +1,28 @@
+.create-bookmark-container {
+  .mat-expansion-panel {
+    max-width: 800px;
+    margin: 20px auto 0 auto;
+  }
+
+  .mat-expansion-panel-header-title {
+    flex-basis: 0;
+  }
+
+  .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+    flex-basis: 0;
+  }
+
+  ::ng-deep .mat-expansion-panel-body {
+    display: flex;
+
+    ::ng-deep mat-form-field:nth-child(2) {
+      flex-grow: 1;
+    }
+  }
+
+  .mat-form-field {
+    margin-right: 12px;
+  }
+}
