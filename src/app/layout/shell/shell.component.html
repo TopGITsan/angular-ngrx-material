@@ -4,7 +4,7 @@
     <span class="spacer"></span>
     <mat-icon>search</mat-icon>
     <!-- <mat-form-field appearance="outline" class="full-width"> -->
-    <input matInput placeholder="Filter bookmarks" type="text" (input)="onFilterChange($event)">
+    <input matInput placeholder="Filter bookmarks" #inputFilterText type="text">
     <!-- </mat-form-field> -->
     <span class="spacer"></span>
     <mat-icon class="icon" [routerLink]="['/create']" routerLinkActive="router-link-active"
