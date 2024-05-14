@@ -11,7 +11,8 @@ export const routes: Routes = [
     path: '', component: ShellComponent, children: [
       { path: 'create', component: CreateBookmarksComponent },
       { path: 'list', component: ListBookmarksComponent, canActivate: [listGuard] },
-      { path: 'edit/:bookmarkId', component: EditBookmarkComponent, canActivate: [editGuard] }
+      { path: 'edit/:bookmarkId', component: EditBookmarkComponent, canActivate: [editGuard] },
+      { path: '', redirectTo: '/list', pathMatch: 'full' }
     ]
   }
 ];
