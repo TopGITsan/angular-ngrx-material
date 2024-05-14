@@ -1,7 +1,7 @@
-@if (bookmarkService.filterText) {
+@if (filterText$ | async; as filterText) {
 <mat-list>
-  <h3 mat-subheader>Results for <em>{{bookmarkService.filterText}}</em></h3>
-  @for (bookmark of todaysBookmarks | fuzzy: bookmarkService.filterText; track bookmark) {
+  <h3 mat-subheader>Results for <em>{{filterText}}</em></h3>
+  @for (bookmark of todaysBookmarks | fuzzy: filterText; track bookmark) {
 
   <mat-list-item>
     <mat-icon matListItemIcon>bookmark</mat-icon>

@@ -7,6 +7,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { routes } from './app.routes';
 import { InMemoryDataService } from './shared/services/in-memory-data/in-memory-data-service';
+import { metaReducers, reducers } from './store/global.store.facade';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,7 +19,8 @@ export const appConfig: ApplicationConfig = {
       passThruUnknownUrl: true,
       put204: false,
     })),
-    provideStore([], {
+    provideStore(reducers, {
+      metaReducers,
       runtimeChecks: {
         strictStateImmutability: true,
         strictActionImmutability: true
