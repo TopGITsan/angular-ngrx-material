@@ -6,3 +6,11 @@ mat-list {
 .mat-mdc-list-item-icon {
   color: rgba(0, 0, 0, 0.54);
 }
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  &::before {
+    content: none;
+  }
+}

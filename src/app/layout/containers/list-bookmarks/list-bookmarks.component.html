@@ -4,14 +4,17 @@
   @for (bookmark of todaysBookmarks | fuzzy: bookmarkService.filterText; track bookmark) {
 
   <mat-list-item>
-    <mat-icon mat-list-icon>bookmark</mat-icon>
-    <h4>{{bookmark.name}}</h4>
-    <a [href]="bookmark.url"  target="_blank" rel="noopener noreferrer">
-      <mat-icon mat-list-icon>{{bookmark.url}}</mat-icon>
-    </a>
-    <a [routerLink]="['/edit',bookmark.id]">
-      <mat-icon matListItemIcon>edit</mat-icon>
-    </a>
+    <mat-icon matListItemIcon>bookmark</mat-icon>
+    <div matListItemTitle>{{bookmark.name}}</div>
+    <div matListItemLine>{{bookmark.created | date}}</div>
+    <div matListItemLine class="actions">
+      <a [href]="bookmark.url">
+        {{bookmark.url}}
+      </a>
+      <a [routerLink]="['/edit',bookmark.id]">
+        <mat-icon>edit</mat-icon>
+      </a>
+    </div>
   </mat-list-item>
 
   }
@@ -27,12 +30,14 @@
     <mat-icon matListItemIcon>bookmark</mat-icon>
     <div matListItemTitle>{{bookmark.name}}</div>
     <div matListItemLine>{{bookmark.created | date}}</div>
-    <a [href]="bookmark.url">
-      {{bookmark.url}}
-    </a>
-    <a [routerLink]="['/edit',bookmark.id]">
-      <mat-icon>edit</mat-icon>
-    </a>
+    <div matListItemLine class="actions">
+      <a [href]="bookmark.url">
+        {{bookmark.url}}
+      </a>
+      <a [routerLink]="['/edit',bookmark.id]">
+        <mat-icon>edit</mat-icon>
+      </a>
+    </div>
   </mat-list-item>
   }
   <mat-divider></mat-divider>
@@ -43,12 +48,14 @@
     <mat-icon matListItemIcon>bookmark</mat-icon>
     <div matListItemTitle>{{bookmark.name}}</div>
     <div matListItemLine>{{bookmark.created | date}}</div>
-    <a [href]="bookmark.url" >
-      {{bookmark.url}}
-    </a>
-    <a [routerLink]="['/edit',bookmark.id]" >
-      <mat-icon>edit</mat-icon>
-    </a>
+    <div matListItemLine class="actions">
+      <a [href]="bookmark.url">
+        {{bookmark.url}}
+      </a>
+      <a [routerLink]="['/edit',bookmark.id]">
+        <mat-icon>edit</mat-icon>
+      </a>
+    </div>
   </mat-list-item>
   }
   <mat-divider></mat-divider>
@@ -59,14 +66,15 @@
     <mat-icon matListItemIcon>bookmark</mat-icon>
     <div matListItemTitle>{{bookmark.name}}</div>
     <div matListItemLine>{{bookmark.created | date}}</div>
-    <a [href]="bookmark.url">
-      {{bookmark.url}}
-    </a>
-    <a [routerLink]="['/edit',bookmark.id]" >
-      <mat-icon>edit</mat-icon>
-    </a>
+    <div matListItemLine class="actions">
+      <a [href]="bookmark.url">
+        {{bookmark.url}}
+      </a>
+      <a [routerLink]="['/edit',bookmark.id]">
+        <mat-icon>edit</mat-icon>
+      </a>
+    </div>
   </mat-list-item>
   }
 </mat-list>
 }
-
