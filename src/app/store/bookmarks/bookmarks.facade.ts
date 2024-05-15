@@ -7,8 +7,8 @@ import {
 } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Bookmark } from '../../shared/services/bookmark/bookmark.service';
-import { LOAD_ALL_BOOKMARKS } from './bookmarks.actions';
-import { getAllBookmarks } from './bookmarks.selector';
+import { EDIT_BOOKMARK, LOAD_ALL_BOOKMARKS } from './bookmarks.actions';
+import { getAllBookmarks, getEditBookmark } from './bookmarks.selector';
 import { BookmarksState } from './bookmarks.state';
 
 @Injectable({
@@ -21,8 +21,16 @@ export class BookmarkStoreFacadeService {
     this.store.dispatch(LOAD_ALL_BOOKMARKS({ bookmarks }))
   }
 
+  onEditBookmark(bookmark: Bookmark): void {
+    this.store.dispatch(EDIT_BOOKMARK({ bookmark }))
+  }
+
   getBookmarks(): Observable<Bookmark[]> {
     return this.store.select(getAllBookmarks)
+  }
+
+  getEditBookmark(): Observable<Bookmark | null> {
+    return this.store.select(getEditBookmark)
   }
 
 }

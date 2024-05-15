@@ -9,8 +9,8 @@ import { Observable, map } from 'rxjs';
 import { FuzzyPipe } from '../../../shared/pipes/fuzzy.pipe';
 import { Bookmark, BookmarkService } from '../../../shared/services/bookmark/bookmark.service';
 import { isToday, isYesterday } from '../../../shared/util';
-import { GlobalStoreFacadeService } from '../../../store/global.store.facade';
 import { BookmarkStoreFacadeService } from '../../../store/bookmarks/bookmarks.facade';
+import { GlobalStoreFacadeService } from '../../../store/global.store.facade';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -19,7 +19,6 @@ import { BookmarkStoreFacadeService } from '../../../store/bookmarks/bookmarks.f
   standalone: true,
   styleUrl: './list-bookmarks.component.scss',
   templateUrl: './list-bookmarks.component.html',
-  providers: [GlobalStoreFacadeService]
 })
 export class ListBookmarksComponent implements OnInit {
   allBookmarks$: Observable<Bookmark[]> | undefined;

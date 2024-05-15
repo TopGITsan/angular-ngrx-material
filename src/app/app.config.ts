@@ -2,12 +2,13 @@ import { provideHttpClient } from '@angular/common/http';
 import { ApplicationConfig, importProvidersFrom, isDevMode } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { PreloadAllModules, provideRouter, withDebugTracing, withPreloading } from '@angular/router';
-import { provideStore } from '@ngrx/store';
+import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { routes } from './app.routes';
 import { InMemoryDataService } from './shared/services/in-memory-data/in-memory-data-service';
 import * as globalStore from './store/global.store.facade';
+import * as bookmarksStore from './store/bookmarks/bookmarks.facade';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -29,6 +30,7 @@ export const appConfig: ApplicationConfig = {
         strictActionImmutability: true
       }
     }),
-    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })
+    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+    provideState(bookmarksStore.bookmarksFeatureKey, bookmarksStore.reducers, { metaReducers: bookmarksStore.metaReducers }),
   ]
 };
