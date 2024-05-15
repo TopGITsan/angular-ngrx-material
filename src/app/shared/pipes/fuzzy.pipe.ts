@@ -7,8 +7,11 @@ import { Bookmark } from '../services/bookmark/bookmark.service';
 })
 export class FuzzyPipe implements PipeTransform {
 
-  transform(bookmarks: Bookmark[], ...args: string[]): Bookmark[] {
+  transform(bookmarks: Bookmark[] | null, ...args: string[]): Bookmark[] {
     const filterTerm = args[0];
+    if (!bookmarks) {
+      return []
+    }
     return filterTerm ? bookmarks.filter((b: Bookmark) => !!b.name.toLowerCase().includes(filterTerm.toLowerCase())) : bookmarks;
   }
 

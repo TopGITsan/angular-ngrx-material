@@ -5,34 +5,43 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from "@angular/material/list";
 import { RouterModule } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { FuzzyPipe } from '../../../shared/pipes/fuzzy.pipe';
 import { Bookmark, BookmarkService } from '../../../shared/services/bookmark/bookmark.service';
 import { isToday, isYesterday } from '../../../shared/util';
 import { GlobalStoreFacadeService } from '../../../store/global.store.facade';
+import { BookmarkStoreFacadeService } from '../../../store/bookmarks/bookmarks.facade';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FuzzyPipe, MatListModule, MatIconModule, MatDividerModule, FormsModule, RouterModule, DatePipe, AsyncPipe, AsyncPipe],
   selector: 'app-list-bookmarks',
   standalone: true,
-  imports: [FuzzyPipe, MatListModule, MatIconModule, MatDividerModule, FormsModule, RouterModule, DatePipe, AsyncPipe],
-  templateUrl: './list-bookmarks.component.html',
   styleUrl: './list-bookmarks.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './list-bookmarks.component.html',
+  providers: [GlobalStoreFacadeService]
 })
 export class ListBookmarksComponent implements OnInit {
-  allBookmarks: Bookmark[] = [];
-  todaysBookmarks: Bookmark[] = [];
-  yesterdaysBookmarks: Bookmark[] = [];
-  olderBookmarks: Bookmark[] = [];
+  allBookmarks$: Observable<Bookmark[]> | undefined;
+  todaysBookmarks$: Observable<Bookmark[]> | undefined;
+  yesterdaysBookmarks$: Observable<Bookmark[]> | undefined;
+  olderBookmarks$: Observable<Bookmark[]> | undefined;
   filterText$: Observable<string> | undefined;
 
 
-  constructor(public readonly bookmarkService: BookmarkService, private readonly store: GlobalStoreFacadeService) { }
+  constructor(public readonly bookmarkService: BookmarkService, private readonly store: GlobalStoreFacadeService, private readonly bookmarksStore: BookmarkStoreFacadeService) { }
   ngOnInit(): void {
-    this.allBookmarks = this.bookmarkService.allBookmarks;
-    this.todaysBookmarks = this.allBookmarks.filter(b => isToday(b.created));
-    this.yesterdaysBookmarks = this.allBookmarks.filter(b => isYesterday(b.created));
-    this.olderBookmarks = this.allBookmarks.filter(bookmark => !this.todaysBookmarks.find(b => b.id === bookmark.id) && !this.yesterdaysBookmarks.find(b => b.id === bookmark.id));
+    this.allBookmarks$ = this.bookmarksStore.getBookmarks();
+    this.todaysBookmarks$ = this.allBookmarks$?.pipe(
+      map(bookmarks => bookmarks.filter((b: Bookmark) => isToday(b.created)))
+    )
+    this.yesterdaysBookmarks$ = this.allBookmarks$?.pipe(
+      map(bookmarks => bookmarks.filter((b: Bookmark) => isYesterday(b.created)))
+    )
+    this.olderBookmarks$ = this.allBookmarks$?.pipe(
+      map(bookmarks => bookmarks.filter(bookmark => !isToday(bookmark.created) && !isYesterday(bookmark.created)))
+    )
+
     this.filterText$ = this.store.getFilterText$();
   }
 

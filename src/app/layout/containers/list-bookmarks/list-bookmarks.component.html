@@ -1,7 +1,7 @@
 @if (filterText$ | async; as filterText) {
 <mat-list>
   <h3 mat-subheader>Results for <em>{{filterText}}</em></h3>
-  @for (bookmark of allBookmarks | fuzzy: filterText; track bookmark) {
+  @for (bookmark of allBookmarks$ | async | fuzzy: filterText; track bookmark) {
 
   <mat-list-item>
     <mat-icon matListItemIcon>bookmark</mat-icon>
@@ -25,7 +25,7 @@
 <mat-list color="primary">
   <!-- today -->
   <div mat-subheader>Today</div>
-  @for (bookmark of todaysBookmarks; track bookmark) {
+  @for (bookmark of todaysBookmarks$ | async; track bookmark) {
   <mat-list-item>
     <mat-icon matListItemIcon>bookmark</mat-icon>
     <div matListItemTitle>{{bookmark.name}}</div>
@@ -43,7 +43,7 @@
   <mat-divider></mat-divider>
   <!-- yesterday -->
   <div mat-subheader>Yesterday</div>
-  @for (bookmark of yesterdaysBookmarks; track bookmark) {
+  @for (bookmark of yesterdaysBookmarks$ | async; track bookmark) {
   <mat-list-item>
     <mat-icon matListItemIcon>bookmark</mat-icon>
     <div matListItemTitle>{{bookmark.name}}</div>
@@ -61,7 +61,7 @@
   <mat-divider></mat-divider>
   <!-- older -->
   <div mat-subheader>Older</div>
-  @for (bookmark of olderBookmarks; track bookmark) {
+  @for (bookmark of olderBookmarks$ | async; track bookmark) {
   <mat-list-item>
     <mat-icon matListItemIcon>bookmark</mat-icon>
     <div matListItemTitle>{{bookmark.name}}</div>
