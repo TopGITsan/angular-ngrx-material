@@ -10,6 +10,7 @@ import { InMemoryDataService } from './shared/services/in-memory-data/in-memory-
 import * as globalStore from './store/global.store.facade';
 import * as bookmarksStore from './store/bookmarks/bookmarks.facade';
 import { provideEffects } from '@ngrx/effects';
+import { BookmarksEffects } from './store/bookmarks/bookmarks.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,6 +31,6 @@ export const appConfig: ApplicationConfig = {
     }),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideState(bookmarksStore.bookmarksFeatureKey, bookmarksStore.reducers, { metaReducers: bookmarksStore.metaReducers }),
-    provideEffects()
+    provideEffects(BookmarksEffects)
 ]
 };

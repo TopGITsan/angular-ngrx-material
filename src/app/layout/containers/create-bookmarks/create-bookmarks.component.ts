@@ -6,11 +6,10 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { Router } from '@angular/router';
 import dayjs from 'dayjs';
 import { Subscription } from 'rxjs';
 import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
-import { BookmarkService } from '../../../shared/services/bookmark/bookmark.service';
+import { BookmarkStoreFacadeService } from '../../../store/bookmarks/bookmarks.facade';
 
 @Component({
   selector: 'app-create-bookmarks',
@@ -28,7 +27,9 @@ export class CreateBookmarksComponent implements OnDestroy {
     url: FormControl<string | null>;
   }>;
 
-  constructor(private readonly fb: FormBuilder, private readonly dialog: MatDialog, private readonly bookmarkService: BookmarkService, private readonly router: Router) {
+  constructor(private readonly fb: FormBuilder,
+    private readonly dialog: MatDialog,
+    private readonly store: BookmarkStoreFacadeService) {
     this.bookmarkForm = this.fb.group({
       name: this.fb.control('', Validators.required),
       url: this.fb.control('', Validators.required)
@@ -46,10 +47,7 @@ export class CreateBookmarksComponent implements OnDestroy {
       this.dialog.open(ErrorDialogComponent, { width: '400px', data: { errorMessage: 'Sorry, unable to create bookmark, provide a name and url' } })
       return;
     }
-    this.bookmarkCreateSub = this.bookmarkService.save({ name, url, created: dayjs().toDate(), id: 0 }).subscribe({
-      next: () => { this.router.navigate(['./list']) },
-      error: () => this.dialog.open(ErrorDialogComponent, { width: '400px', data: { errorMessage: 'Sorry, unable to create bookmark' } })
-    })
+    this.store.onCreateBookmark({ name, url, created: dayjs().toDate(), id: (Math.floor(Math.random() * 999901) + 100) })
   }
 
 

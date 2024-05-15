@@ -7,7 +7,7 @@ import {
 } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Bookmark } from '../../shared/services/bookmark/bookmark.service';
-import { EDIT_BOOKMARK, LOAD_ALL_BOOKMARKS } from './bookmarks.actions';
+import { EDIT_BOOKMARK, LOAD_ALL_BOOKMARKS, SAVE_BOOKMARK } from './bookmarks.actions';
 import { getAllBookmarks, getEditBookmark } from './bookmarks.selector';
 import { BookmarksState } from './bookmarks.state';
 
@@ -23,6 +23,10 @@ export class BookmarkStoreFacadeService {
 
   onEditBookmark(bookmark: Bookmark): void {
     this.store.dispatch(EDIT_BOOKMARK({ bookmark }))
+  }
+
+  onCreateBookmark(bookmark: Bookmark): void {
+    this.store.dispatch(SAVE_BOOKMARK({ bookmark }))
   }
 
   getBookmarks(): Observable<Bookmark[]> {
