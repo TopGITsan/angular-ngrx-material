@@ -1,5 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { ToolbarActions } from '../../shared/actions/toolbar.actions';
+import { ToolbarActions } from './toolbar.actions';
 
 export const toolbarFeatureKey = 'toolbar';
 

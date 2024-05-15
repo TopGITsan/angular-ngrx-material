@@ -5,7 +5,7 @@ export * from './global.state';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filterBookmarks } from '../shared/actions/toolbar.actions';
+import { filterBookmarks } from './toolbar/toolbar.actions';
 import { getFilterText } from './global.selectors';
 import { AppState } from './global.state';
 
