@@ -1,11 +1,15 @@
 import { Component, Inject } from '@angular/core';
-import { MatButtonModule } from "@angular/material/button";
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from "@angular/material/dialog";
-import { Router } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { GlobalStoreFacadeService } from '../../../store/global.store.facade';
 
 export interface Error {
-  errorMessage: string,
-  redirectTo: string
+  errorMessage: string;
+  redirectTo: string;
 }
 
 @Component({
@@ -13,19 +17,19 @@ export interface Error {
   standalone: true,
   imports: [MatDialogModule, MatButtonModule],
   templateUrl: './error-dialog.component.html',
-  styleUrl: './error-dialog.component.scss'
+  styleUrl: './error-dialog.component.scss',
 })
 export class ErrorDialogComponent {
-
-  constructor(public readonly dialogRef: MatDialogRef<ErrorDialogComponent>, @Inject(MAT_DIALOG_DATA) public error: Error, private readonly router: Router) { }
+  constructor(
+    public readonly dialogRef: MatDialogRef<ErrorDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public error: Error,
+    private readonly store: GlobalStoreFacadeService,
+  ) {}
 
   confirm(): void {
     if (this.error.redirectTo) {
-      this.router.navigate([this.error.redirectTo])
-    } else {
-      this.router.navigate(['/'])
+      this.store.onRedirectToProvidedRoute(this.error.redirectTo);
     }
-    this.dialogRef.close()
+    this.dialogRef.close();
   }
-
 }
