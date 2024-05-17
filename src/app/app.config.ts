@@ -11,6 +11,7 @@ import {
   withPreloading,
 } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
+import { provideRouterStore } from '@ngrx/router-store';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
@@ -19,15 +20,12 @@ import { InMemoryDataService } from './shared/services/in-memory-data/in-memory-
 import { BookmarksEffects } from './store/bookmarks/bookmarks.effects';
 import * as bookmarksStore from './store/bookmarks/bookmarks.facade';
 import * as globalStore from './store/global.store.facade';
+import { CustomRouterStateSerializer } from './store/router/custom-router-state.serializer';
 import * as routerEffects from './store/router/router.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(
-      routes,
-      withPreloading(PreloadAllModules),
-      // withDebugTracing(),
-    ),
+    provideRouter(routes, withPreloading(PreloadAllModules)),
     provideAnimationsAsync(),
     provideHttpClient(),
     importProvidersFrom(
@@ -49,5 +47,6 @@ export const appConfig: ApplicationConfig = {
       metaReducers: bookmarksStore.metaReducers,
     }),
     provideEffects(BookmarksEffects, routerEffects),
+    provideRouterStore({ serializer: CustomRouterStateSerializer }),
   ],
 };

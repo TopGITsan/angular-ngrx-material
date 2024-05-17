@@ -10,6 +10,7 @@ import { Bookmark } from '../../shared/services/bookmark/bookmark.service';
 import { EDIT_BOOKMARK, LOAD_ALL_BOOKMARKS, SAVE_BOOKMARK, UPDATE_BOOKMARK } from './bookmarks.actions';
 import { getAllBookmarks, getEditBookmark } from './bookmarks.selector';
 import { BookmarksState } from './bookmarks.state';
+import { getBookmarkId } from '../router/router.selector';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,10 @@ export class BookmarkStoreFacadeService {
 
   getEditBookmark(): Observable<Bookmark | null> {
     return this.store.select(getEditBookmark)
+  }
+
+  getRouterBookmarkId(): Observable<string> {
+    return this.store.select(getBookmarkId)
   }
 
 }

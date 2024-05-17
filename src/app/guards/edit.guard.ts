@@ -7,22 +7,29 @@ import { BookmarkService } from '../shared/services/bookmark/bookmark.service';
 import { BookmarkStoreFacadeService } from '../store/bookmarks/bookmarks.facade';
 
 export const editGuard: CanActivateFn = (route, state) => {
-  const bookmarksService = inject(BookmarkService)
-  const dialog = inject(MatDialog)
+  const bookmarksService = inject(BookmarkService);
+  const dialog = inject(MatDialog);
   const store = inject(BookmarkStoreFacadeService);
-  return bookmarksService.getById(route.params['bookmarkId']).pipe(
+  return store.getRouterBookmarkId().pipe(
     first(),
-    map(bookmark => store.onEditBookmark(bookmark)),
-    switchMap((_) => activateRoute()),
-    catchError((_) => {
-      dialog.open(ErrorDialogComponent, {
-        width: '400px',
-        data: { errorMessage: `Sorry, unable to fetch bookmark ${route.params['bookmarkId']}`, redirectTo: '/list' }
-      })
-      return of(false)
-    }
-    )
-  )
+    switchMap((bookmarkId) =>
+      bookmarksService.getById(Number(bookmarkId)).pipe(
+        first(),
+        map((bookmark) => store.onEditBookmark(bookmark)),
+        switchMap((_) => activateRoute()),
+        catchError((_) => {
+          dialog.open(ErrorDialogComponent, {
+            width: '400px',
+            data: {
+              errorMessage: `Sorry, unable to fetch bookmark ${route.params['bookmarkId']}`,
+              redirectTo: '/list',
+            },
+          });
+          return of(false);
+        }),
+      ),
+    ),
+  );
 };
 
 function activateRoute() {
