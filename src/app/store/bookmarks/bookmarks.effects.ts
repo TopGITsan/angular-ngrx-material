@@ -16,6 +16,7 @@ import {
   UPDATE_BOOKMARK_FAILURE,
   UPDATE_BOOKMARK_SUCCESS,
 } from './bookmarks.actions';
+import { REDIRECT_TO_LIST_ROUTE } from '../router/router.actions';
 
 @Injectable()
 export class BookmarksEffects {
@@ -46,13 +47,11 @@ export class BookmarksEffects {
     { useEffectsErrorHandler: false },
   );
 
-  public saveBookmarkSuccess$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(SAVE_BOOKMARK_SUCCESS),
-        tap(() => this.router.navigate(['/list'])),
-      ),
-    { dispatch: false },
+  public saveBookmarkSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SAVE_BOOKMARK_SUCCESS),
+      map(() => REDIRECT_TO_LIST_ROUTE()),
+    ),
   );
 
   public saveBookmarkFailure$ = createEffect(
@@ -87,13 +86,11 @@ export class BookmarksEffects {
     ),
   );
 
-  public updateBookmarkSuccess$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(UPDATE_BOOKMARK_SUCCESS),
-        tap((actions) => this.router.navigate(['/list'])),
-      ),
-    { dispatch: false },
+  public updateBookmarkSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UPDATE_BOOKMARK_SUCCESS),
+      map(() => REDIRECT_TO_LIST_ROUTE()),
+    ),
   );
 
   public updateBookmarkFailure$ = createEffect(() =>
