@@ -1,1 +1,7 @@
+@if (isPageLoading$ | async; as isPageLoading) {
+<div class="loader">
+  <mat-spinner mode="indeterminate" value="50"></mat-spinner>
+</div>
+}
+{{isPageLoading$ | async}}
 <router-outlet />

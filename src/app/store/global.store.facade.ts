@@ -11,6 +11,7 @@ import {
   REDIRECT_TO_LIST_ROUTE,
   REDIRECT_TO_PROVIDED_ROUTE,
 } from './router/router.actions';
+import { isPageLoading } from './router/router.selector';
 import { filterBookmarks } from './toolbar/toolbar.actions';
 
 @Injectable({ providedIn: 'root' })
@@ -35,5 +36,9 @@ export class GlobalStoreFacadeService {
 
   getFilterText$(): Observable<string> {
     return this.store.select(getFilterText);
+  }
+
+  getIsPageLoading$(): Observable<boolean> {
+    return this.store.select(isPageLoading);
   }
 }
