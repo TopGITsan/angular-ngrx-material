@@ -1,15 +1,11 @@
-import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { BookmarksState } from "./bookmarks.state";
-import { bookmarksFeatureKey } from "./bookmarks.key";
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { bookmarksFeatureKey } from './bookmarks.key';
+import { BookmarksState } from './bookmarks.state';
 
-const getBookmarksState = createFeatureSelector<BookmarksState>(bookmarksFeatureKey);
-
-export const getAllBookmarks = createSelector(
-  getBookmarksState,
-  (state) => state.all
-)
+const getBookmarksState =
+  createFeatureSelector<BookmarksState>(bookmarksFeatureKey);
 
 export const getEditBookmark = createSelector(
   getBookmarksState,
-  (state) => state.edit
-)
+  (state) => state.edit,
+);
