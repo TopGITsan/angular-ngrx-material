@@ -1,6 +1,10 @@
-@if (isPageLoading$ | async; as isPageLoading) {
+<!-- @if (true) {
 <div class="loader">
   <mat-spinner mode="indeterminate" value="50"></mat-spinner>
 </div>
 }
-<router-outlet />
+<router-outlet /> -->
+
+<app-loader [loading]="isPageLoading$ | async">
+  <router-outlet />
+</app-loader>
