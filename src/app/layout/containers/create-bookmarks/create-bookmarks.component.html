@@ -3,24 +3,50 @@
     <mat-expansion-panel hideToggle [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title>Create Bookmark</mat-panel-title>
-        <mat-panel-description>Type bookmark name and url
+        <mat-panel-description
+          >Type bookmark name and url
           <mat-icon>bookmark_border</mat-icon>
         </mat-panel-description>
-
       </mat-expansion-panel-header>
 
       <mat-form-field>
-        <input matInput type="text" name="name" id="name" formControlName="name" placeholder="Name">
+        <input
+          matInput
+          type="text"
+          name="name"
+          id="name"
+          formControlName="name"
+          placeholder="Name"
+        />
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput type="text" name="url" id="url" formControlName="url" placeholder="Url">
+        <input
+          matInput
+          type="text"
+          name="url"
+          id="url"
+          formControlName="url"
+          placeholder="Url"
+        />
       </mat-form-field>
 
       <mat-action-row>
-        <button type="submit" mat-raised-button color="primary" [disabled]="!bookmarkForm.valid">Create bookmark</button>
+        <button
+          type="submit"
+          mat-raised-button
+          color="primary"
+          [disabled]="!bookmarkForm.valid"
+        >
+          Create bookmark
+        </button>
       </mat-action-row>
-
     </mat-expansion-panel>
   </mat-accordion>
 </form>
+
+<div *appLoader="true">
+  Some content
+  <span *appLoader="true"> Some other content </span>
+  <p *appLoader="true">Even more content</p>
+</div>

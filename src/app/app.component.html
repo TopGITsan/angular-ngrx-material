@@ -5,6 +5,10 @@
 }
 <router-outlet /> -->
 
-<app-loader [loading]="isPageLoading$ | async">
+<!-- <app-loader [loading]="isPageLoading$ | async">
   <router-outlet />
-</app-loader>
+</app-loader> -->
+
+<ng-container *appLoader="isPageLoading$ | async">
+  <router-outlet />
+</ng-container>

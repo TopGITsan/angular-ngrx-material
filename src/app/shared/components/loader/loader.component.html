@@ -2,7 +2,11 @@
   <ng-content />
   @if (loading()) {
     <div class="blocker" [ngClass]="{ center: loading() }">
-      <mat-spinner mode="indeterminate" value="50"></mat-spinner>
+      <mat-spinner
+        mode="indeterminate"
+        value="50"
+        style="height: inherit"
+      ></mat-spinner>
     </div>
   }
 </div>
