@@ -14,6 +14,7 @@ import {
 import { isToday, isYesterday } from '../../../shared/util';
 import { BookmarkStoreFacadeService } from '../../../store/bookmarks/bookmarks.facade';
 import { GlobalStoreFacadeService } from '../../../store/global.store.facade';
+import { ExternalLinkDirective } from '../../../shared/directives/external-link/external-link.directive';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,6 +28,7 @@ import { GlobalStoreFacadeService } from '../../../store/global.store.facade';
     DatePipe,
     AsyncPipe,
     AsyncPipe,
+    ExternalLinkDirective,
   ],
   selector: 'app-list-bookmarks',
   standalone: true,

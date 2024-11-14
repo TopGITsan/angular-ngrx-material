@@ -1,80 +1,81 @@
 @if (filterText$ | async; as filterText) {
-<mat-list>
-  <h3 mat-subheader>Results for <em>{{filterText}}</em></h3>
-  @for (bookmark of allBookmarks$ | async | fuzzy: filterText; track bookmark) {
-
-  <mat-list-item>
-    <mat-icon matListItemIcon>bookmark</mat-icon>
-    <div matListItemTitle>{{bookmark.name}}</div>
-    <div matListItemLine>{{bookmark.created | date}}</div>
-    <div matListItemLine class="actions">
-      <a [href]="bookmark.url">
-        {{bookmark.url}}
-      </a>
-      <a [routerLink]="['/edit',bookmark.id]">
-        <mat-icon>edit</mat-icon>
-      </a>
-    </div>
-  </mat-list-item>
-
-  }
-</mat-list>
-
+  <mat-list>
+    <h3 mat-subheader>
+      Results for <em>{{ filterText }}</em>
+    </h3>
+    @for (
+      bookmark of allBookmarks$ | async | fuzzy: filterText;
+      track bookmark
+    ) {
+      <mat-list-item>
+        <mat-icon matListItemIcon>bookmark</mat-icon>
+        <div matListItemTitle>{{ bookmark.name }}</div>
+        <div matListItemLine>{{ bookmark.created | date }}</div>
+        <div matListItemLine class="actions">
+          <a [href]="bookmark.url">
+            {{ bookmark.url }}
+          </a>
+          <a [routerLink]="['/edit', bookmark.id]">
+            <mat-icon>edit</mat-icon>
+          </a>
+        </div>
+      </mat-list-item>
+    }
+  </mat-list>
 } @else {
-
-<mat-list color="primary">
-  <!-- today -->
-  <div mat-subheader>Today</div>
-  @for (bookmark of todaysBookmarks$ | async; track bookmark) {
-  <mat-list-item>
-    <mat-icon matListItemIcon>bookmark</mat-icon>
-    <div matListItemTitle>{{bookmark.name}}</div>
-    <div matListItemLine>{{bookmark.created | date}}</div>
-    <div matListItemLine class="actions">
-      <a [href]="bookmark.url">
-        {{bookmark.url}}
-      </a>
-      <a [routerLink]="['/edit',bookmark.id]">
-        <mat-icon>edit</mat-icon>
-      </a>
-    </div>
-  </mat-list-item>
-  }
-  <mat-divider></mat-divider>
-  <!-- yesterday -->
-  <div mat-subheader>Yesterday</div>
-  @for (bookmark of yesterdaysBookmarks$ | async; track bookmark) {
-  <mat-list-item>
-    <mat-icon matListItemIcon>bookmark</mat-icon>
-    <div matListItemTitle>{{bookmark.name}}</div>
-    <div matListItemLine>{{bookmark.created | date}}</div>
-    <div matListItemLine class="actions">
-      <a [href]="bookmark.url">
-        {{bookmark.url}}
-      </a>
-      <a [routerLink]="['/edit',bookmark.id]">
-        <mat-icon>edit</mat-icon>
-      </a>
-    </div>
-  </mat-list-item>
-  }
-  <mat-divider></mat-divider>
-  <!-- older -->
-  <div mat-subheader>Older</div>
-  @for (bookmark of olderBookmarks$ | async; track bookmark) {
-  <mat-list-item>
-    <mat-icon matListItemIcon>bookmark</mat-icon>
-    <div matListItemTitle>{{bookmark.name}}</div>
-    <div matListItemLine>{{bookmark.created | date}}</div>
-    <div matListItemLine class="actions">
-      <a [href]="bookmark.url">
-        {{bookmark.url}}
-      </a>
-      <a [routerLink]="['/edit',bookmark.id]">
-        <mat-icon>edit</mat-icon>
-      </a>
-    </div>
-  </mat-list-item>
-  }
-</mat-list>
+  <mat-list color="primary">
+    <!-- today -->
+    <div mat-subheader>Today</div>
+    @for (bookmark of todaysBookmarks$ | async; track bookmark) {
+      <mat-list-item>
+        <mat-icon matListItemIcon>bookmark</mat-icon>
+        <div matListItemTitle>{{ bookmark.name }}</div>
+        <div matListItemLine>{{ bookmark.created | date }}</div>
+        <div matListItemLine class="actions">
+          <a [href]="bookmark.url">
+            {{ bookmark.url }}
+          </a>
+          <a [routerLink]="['/edit', bookmark.id]" targetRef="_self">
+            <mat-icon>edit</mat-icon>
+          </a>
+        </div>
+      </mat-list-item>
+    }
+    <mat-divider></mat-divider>
+    <!-- yesterday -->
+    <div mat-subheader>Yesterday</div>
+    @for (bookmark of yesterdaysBookmarks$ | async; track bookmark) {
+      <mat-list-item>
+        <mat-icon matListItemIcon>bookmark</mat-icon>
+        <div matListItemTitle>{{ bookmark.name }}</div>
+        <div matListItemLine>{{ bookmark.created | date }}</div>
+        <div matListItemLine class="actions">
+          <a [href]="bookmark.url">
+            {{ bookmark.url }}
+          </a>
+          <a [routerLink]="['/edit', bookmark.id]" targetRef="_self">
+            <mat-icon>edit</mat-icon>
+          </a>
+        </div>
+      </mat-list-item>
+    }
+    <mat-divider></mat-divider>
+    <!-- older -->
+    <div mat-subheader>Older</div>
+    @for (bookmark of olderBookmarks$ | async; track bookmark) {
+      <mat-list-item>
+        <mat-icon matListItemIcon>bookmark</mat-icon>
+        <div matListItemTitle>{{ bookmark.name }}</div>
+        <div matListItemLine>{{ bookmark.created | date }}</div>
+        <div matListItemLine class="actions">
+          <a [href]="bookmark.url">
+            {{ bookmark.url }}
+          </a>
+          <a [routerLink]="['/edit', bookmark.id]" targetRef="_self">
+            <mat-icon>edit</mat-icon>
+          </a>
+        </div>
+      </mat-list-item>
+    }
+  </mat-list>
 }
