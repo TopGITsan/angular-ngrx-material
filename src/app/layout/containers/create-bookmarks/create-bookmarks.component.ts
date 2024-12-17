@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  signal,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -41,6 +46,7 @@ export class CreateBookmarksComponent implements OnDestroy {
     name: FormControl<string | null>;
     url: FormControl<string | null>;
   }>;
+  expanded = signal<boolean>(true);
 
   constructor(
     private readonly fb: FormBuilder,
