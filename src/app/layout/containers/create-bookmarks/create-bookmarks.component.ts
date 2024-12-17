@@ -22,6 +22,7 @@ import { Subscription } from 'rxjs';
 import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
 import { LoaderDirective } from '../../../shared/directives/loader.directive';
 import { BookmarkStoreFacadeService } from '../../../store/bookmarks/bookmarks.facade';
+import { ClickOutsideDirective } from '../../../shared/directives/clickOutside/click-outside.directive';
 
 @Component({
   selector: 'app-create-bookmarks',
@@ -35,6 +36,7 @@ import { BookmarkStoreFacadeService } from '../../../store/bookmarks/bookmarks.f
     MatButtonModule,
     MatDialogModule,
     LoaderDirective,
+    ClickOutsideDirective,
   ],
   templateUrl: './create-bookmarks.component.html',
   styleUrl: './create-bookmarks.component.scss',

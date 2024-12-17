@@ -1,6 +1,11 @@
 <form [formGroup]="bookmarkForm" (ngSubmit)="onSubmit()">
   <mat-accordion class="create-bookmark-container">
-    <mat-expansion-panel hideToggle [expanded]="expanded()">
+    <mat-expansion-panel
+      hideToggle
+      [expanded]="expanded()"
+      #mep="matExpansionPanel"
+      (appClickOutside)="mep.close()"
+    >
       <mat-expansion-panel-header>
         <mat-panel-title>Create Bookmark</mat-panel-title>
         <mat-panel-description
