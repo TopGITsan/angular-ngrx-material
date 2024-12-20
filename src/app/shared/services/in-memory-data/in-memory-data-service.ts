@@ -1,34 +1,30 @@
-import dayjs from "dayjs";
-
+import dayjs from 'dayjs';
+import { Bookmark } from '../bookmark/bookmark.service';
+import { getRandomInt, removeHttp } from '../../util';
+const urls = [
+  'https://angular.dev',
+  'https://ngrx.io',
+  'https://www.typescript.org',
+  'https://rxjs.dev',
+];
 export class InMemoryDataService implements InMemoryDataService {
   createDb() {
     return {
-      bookmarks: [
-        {
-          id: 1,
-          name: 'Angular',
-          url: 'https://angular.dev',
-          created: dayjs().toDate()
-        },
-        {
-          id: 2,
-          name: 'NgRx',
-          url: 'https://ngrx.io',
-          created: dayjs().subtract(1, 'day').toDate()
-        },
-        {
-          id: 3,
-          name: 'Typescript',
-          url: 'https://www.typescript.org',
-          created: dayjs().subtract(2, 'day').toDate()
-        },
-        {
-          id: 4,
-          name: 'RxJs',
-          url: 'https://rxjs.dev',
-          created: dayjs().subtract(3, 'day').toDate()
-        },
-      ]
-    }
+      bookmarks: createBookmarkBatch(),
+    };
   }
+}
+
+function createBookmark(): Bookmark {
+  const randomInt = getRandomInt(urls.length - 1);
+  return {
+    id: getRandomInt(999999999),
+    name: removeHttp(urls[randomInt]),
+    url: urls[randomInt],
+    created: dayjs().subtract(getRandomInt(30), 'day').toDate(),
+  };
+}
+
+function createBookmarkBatch(): Bookmark[] {
+  return Array.from({ length: 1000 }, (v, i) => createBookmark());
 }
