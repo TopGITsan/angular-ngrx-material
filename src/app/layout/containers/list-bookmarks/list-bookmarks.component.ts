@@ -27,7 +27,6 @@ import { ExternalLinkDirective } from '../../../shared/directives/external-link/
     RouterModule,
     DatePipe,
     AsyncPipe,
-    AsyncPipe,
     ExternalLinkDirective,
   ],
   selector: 'app-list-bookmarks',
