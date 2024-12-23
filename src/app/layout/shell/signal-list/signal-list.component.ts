@@ -16,6 +16,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { tap } from 'rxjs';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-signal-list',
@@ -30,6 +31,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MatProgressBarModule,
     ReactiveFormsModule,
     RouterLinkWithHref,
+    MatButtonModule
   ],
   templateUrl: './signal-list.component.html',
   styleUrl: './signal-list.component.scss',

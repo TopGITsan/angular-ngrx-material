@@ -7,29 +7,27 @@
     placeholder="write a search word"
   />
 </mat-form-field>
-<section class="flex flex-col">
-  <section class="flex gap-3 items-center">
+<section>
+  <section>
     <button
+      mat-raised-button
       [disabled]="store.page() === 1"
-      [class.bg-gray-400]="store.page() === 1"
-      class="text-xl border rounded-md p-3"
       (click)="store.previousPage$.next()"
     >
       <
     </button>
+    Page :{{ store.page() }} /
+    {{ store.pages() }}
     <button
+      mat-raised-button
       [disabled]="store.endOfPages()"
-      [class.bg-gray-400]="store.endOfPages()"
-      class="text-xl border rounded-md p-3"
       (click)="store.nextPage$.next()"
     >
       >
     </button>
-    Page :{{ store.page() }} /
-    {{ store.pages() }}
   </section>
   @if (store.loading()) {
-    <mat-progress-bar mode="query" class="mt-5"></mat-progress-bar>
+    <mat-progress-bar mode="query"></mat-progress-bar>
   }
   <mat-list>
     @for (bookmark of store.bookmarks(); track bookmark.id) {
@@ -50,7 +48,7 @@
       <div>No bookmarks found. Type a search word.</div>
     }
   </mat-list>
-  <footer class="text-red-500">
+  <footer>
     {{ store.error() }}
   </footer>
 </section>
