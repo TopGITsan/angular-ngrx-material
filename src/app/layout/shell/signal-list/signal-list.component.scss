@@ -1,0 +1,22 @@
+:host {
+  padding: 2rem;
+  display: block;
+}
+
+mat-list {
+  max-width: 800px;
+  margin: 20px auto 0 auto;
+}
+
+.mat-mdc-list-item-icon {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  &::before {
+    content: none;
+  }
+}
+
