@@ -40,10 +40,10 @@ export class BookmarkService {
         if (!searchTerm) {
           return {
             page,
-            pages: bookmarks.length / perPage,
+            pages: Math.round(bookmarks.length / perPage),
             perPage,
             total: bookmarks.length,
-            bookmarks: bookmarks.slice(perPage * page, perPage),
+            bookmarks: bookmarks.slice((page -1) * perPage, page * perPage),
             status: '200',
             searchTerm,
           };
@@ -54,10 +54,10 @@ export class BookmarkService {
         );
         return {
           page,
-          pages: searchedBookmarks.length / perPage,
+          pages: Math.round(searchedBookmarks.length / perPage),
           perPage,
           total: searchedBookmarks.length,
-          bookmarks: searchedBookmarks.slice(perPage * page, perPage),
+          bookmarks: searchedBookmarks.slice((page -1) * perPage, page * perPage),
           status: '200',
           searchTerm,
         };
