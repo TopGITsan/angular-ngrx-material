@@ -1,0 +1,54 @@
+<mat-form-field appearance="fill">
+  <mat-label>Search</mat-label>
+  <input
+    type="text"
+    matInput
+    [formControl]="store.searchControl"
+    placeholder="write a search word"
+  />
+</mat-form-field>
+<section>
+  <section>
+    <button
+      mat-raised-button
+      [disabled]="store.page() === 1"
+      (click)="store.previousPage$.next()"
+    >
+      <
+    </button>
+    Page :{{ store.page() }} /
+    {{ store.pages() }}
+    <button
+      mat-raised-button
+      [disabled]="store.endOfPages()"
+      (click)="store.nextPage$.next()"
+    >
+      >
+    </button>
+  </section>
+  @if (store.loading()) {
+    <mat-progress-bar mode="query"></mat-progress-bar>
+  }
+  <mat-list>
+    @for (bookmark of store.bookmarks(); track bookmark.id) {
+      <mat-list-item>
+        <mat-icon matListItemIcon>bookmark</mat-icon>
+        <div matListItemTitle>{{ bookmark.name }}</div>
+        <div matListItemLine>{{ bookmark.created | date }}</div>
+        <div matListItemLine class="actions">
+          <a [href]="bookmark.url">
+            {{ bookmark.url }}
+          </a>
+          <a [routerLink]="['/edit', bookmark.id]">
+            <mat-icon>edit</mat-icon>
+          </a>
+        </div>
+      </mat-list-item>
+    } @empty {
+      <div>No bookmarks found. Type a search word.</div>
+    }
+  </mat-list>
+  <footer>
+    {{ store.error() }}
+  </footer>
+</section>
