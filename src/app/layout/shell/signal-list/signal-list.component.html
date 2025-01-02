@@ -30,22 +30,30 @@
     <mat-progress-bar mode="query"></mat-progress-bar>
   }
   <mat-list>
-    @for (bookmark of store.bookmarks(); track bookmark.id) {
+    @if (store.loading()) {
       <mat-list-item>
         <mat-icon matListItemIcon>bookmark</mat-icon>
-        <div matListItemTitle>{{ bookmark.name }}</div>
-        <div matListItemLine>{{ bookmark.created | date }}</div>
-        <div matListItemLine class="actions">
-          <a [href]="bookmark.url">
-            {{ bookmark.url }}
-          </a>
-          <a [routerLink]="['/edit', bookmark.id]">
-            <mat-icon>edit</mat-icon>
-          </a>
-        </div>
+        <div matListItemTitle>Loading</div>
+        <div matListItemLine>now</div>
       </mat-list-item>
-    } @empty {
-      <div>No bookmarks found. Type a search word.</div>
+    } @else {
+      @for (bookmark of store.bookmarks(); track bookmark.id) {
+        <mat-list-item>
+          <mat-icon matListItemIcon>bookmark</mat-icon>
+          <div matListItemTitle>{{ bookmark.name }}</div>
+          <div matListItemLine>{{ bookmark.created | date }}</div>
+          <div matListItemLine class="actions">
+            <a [href]="bookmark.url">
+              {{ bookmark.url }}
+            </a>
+            <a [routerLink]="['/edit', bookmark.id]">
+              <mat-icon>edit</mat-icon>
+            </a>
+          </div>
+        </mat-list-item>
+      } @empty {
+        <div>No bookmarks found. Type a search word.</div>
+      }
     }
   </mat-list>
   <footer>
