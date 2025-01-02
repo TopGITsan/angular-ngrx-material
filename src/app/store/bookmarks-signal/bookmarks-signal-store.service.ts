@@ -9,7 +9,9 @@ import {
   filter,
   map,
   merge,
+  Observable,
   of,
+  share,
   Subject,
   switchMap,
   tap,
@@ -72,18 +74,12 @@ export class BookmarksSignalStoreService {
     disabled: false,
   });
 
-  private readonly searchChange$ = this.searchControl.valueChanges.pipe(
-    filter((text): text is string => text !== null && text !== undefined),
-    debounceTime(300),
-    distinctUntilChanged(),
-    map((search) => ({ ...this.state(), search, page: 1, loading: true })),
-  );
-
-  readonly searchPayload = computed(
+  private readonly searchPayload = computed(
     () => [this.search(), this.page()] as const,
   );
 
   private readonly searchResultsChange$ = toObservable(this.searchPayload).pipe(
+    debounceTime(100),
     switchMap(([search, page]) =>
       this.bookmarksService.searchBookmark(search, page).pipe(
         tap((result) => {
@@ -96,44 +92,99 @@ export class BookmarksSignalStoreService {
         catchError((error: unknown) => of({ error })),
       ),
     ),
-    map((result: { error: unknown } | BookmarkApiResponse) => {
-      const state = this.state();
-      if ('error' in result) {
+    share(),
+  );
+  private readonly searchResultsChangeSuccess$ = this.searchResultsChange$.pipe(
+    resultsSuccess<BookmarkApiResponse>,
+    share(),
+  );
+  private readonly searchResultsChangeFailure$ = this.searchResultsChange$.pipe(
+    resultsFailure,
+    share(),
+  );
+
+  readonly nextPage$ = new Subject<void>();
+  readonly previousPage$ = new Subject<void>();
+
+  // State changes and events should be separate
+  // read more https://dev.to/mfp22/10-tips-for-scaling-signals-1nap
+  private readonly newState$ = merge(
+    defer(() => of(getSavedState())),
+    toObservable(this.searchPayload).pipe(
+      debounceTime(100),
+      map((_) => ({ ...this.state(), loading: true })),
+    ),
+    this.searchControl.valueChanges.pipe(
+      filter(
+        (text): text is string =>
+          text !== null &&
+          text !== undefined &&
+          (text == '' || text.length >= 3),
+      ),
+      debounceTime(300),
+      distinctUntilChanged(),
+      map((search) => ({ ...this.state(), search, page: 1, loading: true })),
+    ),
+    this.searchResultsChangeSuccess$.pipe(
+      map((result) => {
+        const state = this.state();
+        return {
+          ...state,
+          bookmarks: result.bookmarks,
+          pages: result.pages,
+          error: '',
+          loading: false,
+        };
+      }),
+    ),
+    this.searchResultsChangeFailure$.pipe(
+      map((result) => {
+        const state = this.state();
         return {
           ...state,
           error: JSON.stringify(result.error),
           loading: false,
         };
-      }
-      return {
-        ...state,
-        bookmarks: result.bookmarks,
-        pages: result.pages,
-        error: '',
-        loading: false,
-      };
-    }),
+      }),
+    ),
+    merge(
+      this.nextPage$.pipe(map(() => 1)),
+      this.previousPage$.pipe(map(() => -1)),
+    ).pipe(
+      map((change) => ({
+        ...this.state(),
+        page: this.page() + change,
+        loading: true,
+      })),
+    ),
   );
 
-  readonly nextPage$ = new Subject<void>();
-  readonly previousPage$ = new Subject<void>();
-  private readonly pageChange$ = merge(
-    this.nextPage$.pipe(map(() => 1)),
-    this.previousPage$.pipe(map(() => -1)),
-  ).pipe(
-    map((change) => ({
-      ...this.state(),
-      page: this.page() + change,
-      loading: true,
-    })),
-  );
+  // If you want to share state change logic by extending a base auto-signal class,
+  // TypeScript will infer the type of connection$ and prevent you from changing it in a child class.
+  // We don't want this because it doesn't matter what kind of values connection$ emits.
+  //  So, we should just type it as Observable<any>
+  connection$ = connectSource(this.newState$, this.state) as Observable<any>;
+}
+// Some HTTP utilities are useful
+// read more https://dev.to/mfp22/10-tips-for-scaling-signals-1nap
+type RequestObservable<T> = Observable<T | { error: unknown }>;
 
-  private readonly newState$ = merge(
-    defer(() => of(getSavedState())),
-    this.searchChange$,
-    this.searchResultsChange$,
-    this.pageChange$,
+function resultsSuccess<T>(source: RequestObservable<T>): Observable<T> {
+  return source.pipe(
+    filter(
+      (result): result is T =>
+        typeof result === 'object' && !('error' in (result as object)),
+    ),
   );
+}
 
-  connection$ = connectSource(this.newState$, this.state);
+function resultsFailure<T>(
+  source: RequestObservable<T>,
+): Observable<{ error: {} }> {
+  return source.pipe(
+    filter(
+      (result): result is { error: {} } =>
+        typeof result === 'object' && 'error' in (result as object),
+    ),
+  );
 }
